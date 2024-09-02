@@ -1,6 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import { List, RadioButton, Text } from "react-native-paper";
 import { Cluster } from "./cluster-data-access";
+import React from "react";
 
 export function ClusterPickerRadioButtonGroupRow({
   cluster,

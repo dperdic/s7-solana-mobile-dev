@@ -7,6 +7,7 @@ import { useState } from "react";
 import * as Clipboard from "expo-clipboard";
 import { Linking } from "react-native";
 import { useCluster } from "../cluster/cluster-data-access";
+import React from "react";
 
 export function TopBarWalletButton({
   selectedAccount,

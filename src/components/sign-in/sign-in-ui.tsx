@@ -4,6 +4,7 @@ import { Button } from "react-native-paper";
 import { alertAndLog } from "../../utils/alertAndLog";
 import { useAuthorization } from "../../utils/useAuthorization";
 import { useMobileWallet } from "../../utils/useMobileWallet";
+import React from "react";
 
 export function ConnectButton() {
   const { authorizeSession } = useAuthorization();
