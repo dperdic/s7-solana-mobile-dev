@@ -1,3 +1,4 @@
+import React from "react";
 import { useAuthorization } from "../utils/useAuthorization";
 import { StyleSheet, View } from "react-native";
 
