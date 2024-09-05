@@ -2,12 +2,15 @@ import { useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { Button } from "react-native-paper";
 import {
+  CameraType,
   launchCameraAsync,
   launchImageLibraryAsync,
   MediaTypeOptions,
   requestCameraPermissionsAsync,
   requestMediaLibraryPermissionsAsync,
 } from "expo-image-picker";
+import { alertAndLog } from "../utils/alertAndLog";
+import { saveToLibraryAsync } from "expo-media-library";
 
 export interface NFTSnapshot {
   uri: string;
@@ -17,6 +20,7 @@ export interface NFTSnapshot {
 }
 
 export default function NftScreen() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [image, setImage] = useState<string | null>(null);
   const [metadata, setMetadata] = useState<any | null>(null);
 
@@ -36,7 +40,7 @@ export default function NftScreen() {
   const pickImageFromGallery = async () => {
     let result = await launchImageLibraryAsync({
       mediaTypes: MediaTypeOptions.Images,
-      allowsEditing: true,
+      allowsEditing: false,
       quality: 1,
       exif: true, // Request for metadata
     });
@@ -52,9 +56,11 @@ export default function NftScreen() {
     await requestPermissions();
 
     let result = await launchCameraAsync({
+      mediaTypes: MediaTypeOptions.Images,
       allowsEditing: true,
       quality: 1,
       exif: true, // Request for metadata
+      cameraType: CameraType.back,
     });
 
     if (!result.canceled) {
@@ -66,9 +72,19 @@ export default function NftScreen() {
   // Function to print the metadata to the console
   const printMetadata = () => {
     if (metadata) {
-      console.log("Image Metadata:", metadata);
+      alertAndLog("Image Metadata", JSON.stringify(metadata));
     } else {
-      console.log("No metadata available");
+      alertAndLog("No metadata available", null);
+    }
+  };
+
+  const saveImage = async () => {
+    if (image) {
+      await saveToLibraryAsync(image);
+      alertAndLog(
+        "Image saved",
+        "The image has been saved to your photo album."
+      );
     }
   };
 
@@ -83,22 +99,40 @@ export default function NftScreen() {
         <>
           <Image source={{ uri: image }} style={styles.image} />
 
-          <Button mode="contained" onPress={printMetadata}>
-            Print Metadata
-          </Button>
+          <View style={styles.buttonRow}>
+            <Button
+              mode="contained"
+              onPress={printMetadata}
+              disabled={isLoading}
+            >
+              Print Metadata
+            </Button>
 
-          <Button mode="outlined" onPress={clearImage}>
+            <Button
+              mode="contained-tonal"
+              onPress={saveImage}
+              disabled={isLoading}
+            >
+              Save image
+            </Button>
+          </View>
+
+          <Button mode="outlined" onPress={clearImage} disabled={isLoading}>
             Clear image
           </Button>
         </>
       ) : (
         <>
-          <Button mode="contained" onPress={captureImage}>
-            Capture Image
+          <Button mode="contained" onPress={captureImage} disabled={isLoading}>
+            Capture an Image
           </Button>
 
-          <Button mode="outlined" onPress={pickImageFromGallery}>
-            Load from Gallery
+          <Button
+            mode="contained"
+            onPress={pickImageFromGallery}
+            disabled={isLoading}
+          >
+            Load an Image from Gallery
           </Button>
         </>
       )}
@@ -112,6 +146,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 24,
+  },
+  buttonRow: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 8,
   },
   image: {
     width: 300,
