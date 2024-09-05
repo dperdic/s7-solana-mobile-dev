@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React from "react";
 import { TopBar } from "../components/top-bar/top-bar-feature";
 import { HomeScreen } from "../screens/HomeScreen";
 import MaterialCommunityIcon from "@expo/vector-icons/MaterialCommunityIcons";
 import { useTheme } from "react-native-paper";
-import BlankScreen from "../screens/BlankScreen";
+import NftScreen from "../screens/NftScreen";
+import { useAuthorization } from "../utils/useAuthorization";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,6 +16,8 @@ const Tab = createBottomTabNavigator();
  */
 export function HomeNavigator() {
   const theme = useTheme();
+  const { selectedAccount } = useAuthorization();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -30,7 +32,7 @@ export function HomeNavigator() {
                   color={color}
                 />
               );
-            case "Blank":
+            case "NFT":
               return (
                 <MaterialCommunityIcon
                   name={
@@ -45,7 +47,7 @@ export function HomeNavigator() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Blank" component={BlankScreen} />
+      {selectedAccount && <Tab.Screen name="NFT" component={NftScreen} />}
     </Tab.Navigator>
   );
 }

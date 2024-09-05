@@ -1,4 +1,4 @@
-import { Button, IconButton, Menu, useTheme } from "react-native-paper";
+import { Button, IconButton, Menu } from "react-native-paper";
 import { Account, useAuthorization } from "../../utils/useAuthorization";
 import { useMobileWallet } from "../../utils/useMobileWallet";
 import { useNavigation } from "@react-navigation/native";
@@ -7,7 +7,6 @@ import { useState } from "react";
 import * as Clipboard from "expo-clipboard";
 import { Linking } from "react-native";
 import { useCluster } from "../cluster/cluster-data-access";
-import React from "react";
 
 export function TopBarWalletButton({
   selectedAccount,

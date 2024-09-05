@@ -8,8 +8,7 @@ import {
   NavigationContainer,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
-import { Appearance, useColorScheme } from "react-native";
+import { useColorScheme } from "react-native";
 import * as Screens from "../screens";
 import { HomeNavigator } from "./HomeNavigator";
 import { StatusBar } from "expo-status-bar";

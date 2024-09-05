@@ -1,7 +1,5 @@
-import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
-
 import { Section } from "../Section";
 import { useAuthorization } from "../utils/useAuthorization";
 import { AccountDetailFeature } from "../components/account/account-detail-feature";
@@ -13,29 +11,32 @@ export function HomeScreen() {
   return (
     <View style={styles.screenContainer}>
       <Text
-        style={{ fontWeight: "bold", marginBottom: 12 }}
+        style={{ fontWeight: "bold", marginBottom: 36 }}
         variant="displaySmall"
       >
-        Solana Mobile Expo Template
+        S7 Solana Mobile Dev
       </Text>
       {selectedAccount ? (
         <AccountDetailFeature />
       ) : (
-        <>
+        <View style={styles.connectionScreenContainer}>
           <Section
-            title="Solana SDKs"
-            description="Configured with Solana SDKs like Mobile Wallet Adapter and web3.js."
+            title="1. Connect a wallet"
+            description="Connect to your wallet app."
           />
+
           <Section
-            title="UI Kit and Navigation"
-            description="Utilizes React Native Paper components and the React Native Navigation library."
+            title="2. Airdrop SOL"
+            description="Airdrop some SOL if you need it"
           />
+
           <Section
-            title="Get started!"
-            description="Connect or Sign in with Solana (SIWS) to link your wallet account."
+            title="3. Mint NFT"
+            description="Once your wallet is connected create an NFT by loading an image from your gallery or capturing a new image"
           />
+
           <SignInFeature />
-        </>
+        </View>
       )}
     </View>
   );
@@ -45,6 +46,11 @@ const styles = StyleSheet.create({
   screenContainer: {
     padding: 16,
     flex: 1,
+  },
+  connectionScreenContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 24,
   },
   buttonGroup: {
     flexDirection: "column",

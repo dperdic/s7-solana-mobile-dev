@@ -6,7 +6,6 @@ import {
   AccountButtonGroup,
   AccountTokens,
 } from "./account-ui";
-import React from "react";
 
 export function AccountDetailFeature() {
   const { selectedAccount } = useAuthorization();

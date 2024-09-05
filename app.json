@@ -14,15 +14,19 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.dperdic.s7solanamobiledev"
+      "package": "com.dperdic.s7solanamobiledev",
+      "permissions": [
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.CAMERA",
+        "android.permission.MANAGE_DOCUMENTS",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -35,9 +39,10 @@
     "owner": "dperdic",
     "plugins": [
       [
-        "react-native-vision-camera",
+        "expo-image-picker",
         {
-          "cameraPermissionText": "$(PRODUCT_NAME) needs access to your Camera."
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos",
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"
         }
       ]
     ]

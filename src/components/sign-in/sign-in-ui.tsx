@@ -1,15 +1,14 @@
-import { transact } from "@solana-mobile/mobile-wallet-adapter-protocol";
 import { useState, useCallback } from "react";
 import { Button } from "react-native-paper";
 import { alertAndLog } from "../../utils/alertAndLog";
 import { useAuthorization } from "../../utils/useAuthorization";
 import { useMobileWallet } from "../../utils/useMobileWallet";
-import React from "react";
 
 export function ConnectButton() {
   const { authorizeSession } = useAuthorization();
   const { connect } = useMobileWallet();
   const [authorizationInProgress, setAuthorizationInProgress] = useState(false);
+
   const handleConnectPress = useCallback(async () => {
     try {
       if (authorizationInProgress) {
@@ -26,6 +25,7 @@ export function ConnectButton() {
       setAuthorizationInProgress(false);
     }
   }, [authorizationInProgress, authorizeSession]);
+
   return (
     <Button
       mode="contained"
@@ -42,6 +42,7 @@ export function SignInButton() {
   const { authorizeSession } = useAuthorization();
   const { signIn } = useMobileWallet();
   const [signInInProgress, setSignInInProgress] = useState(false);
+
   const handleConnectPress = useCallback(async () => {
     try {
       if (signInInProgress) {
@@ -62,6 +63,7 @@ export function SignInButton() {
       setSignInInProgress(false);
     }
   }, [signInInProgress, authorizeSession]);
+
   return (
     <Button
       mode="outlined"
