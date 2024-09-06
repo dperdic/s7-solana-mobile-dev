@@ -52,8 +52,6 @@ export const UmiProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     let umi: Umi | null = null;
 
-    const localhost = "http://127.0.0.1:8899";
-
     if (selectedCluster && walletAdapter) {
       umi = createUmi(selectedCluster.endpoint)
         .use(walletAdapterIdentity(walletAdapter))
