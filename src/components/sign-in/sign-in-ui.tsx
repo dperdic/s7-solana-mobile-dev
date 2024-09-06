@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { Button } from "react-native-paper";
-import { alertAndLog } from "../../utils/alertAndLog";
+import { alertAndLog } from "../../utils/functions";
 import { useAuthorization } from "../../utils/useAuthorization";
 import { useMobileWallet } from "../../utils/useMobileWallet";
 

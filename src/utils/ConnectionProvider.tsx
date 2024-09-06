@@ -19,6 +19,8 @@ export const ConnectionProvider: FC<ConnectionProviderProps> = ({
 }) => {
   const { selectedCluster } = useCluster();
 
+  const localhost = "http://127.0.0.1:8899";
+
   const connection = useMemo(
     () => new Connection(selectedCluster.endpoint, config),
     [selectedCluster, config]
