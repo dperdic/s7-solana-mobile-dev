@@ -14,78 +14,91 @@ import { alertAndLog } from "../utils/functions";
 import { saveToLibraryAsync } from "expo-media-library";
 import { useNftUtils } from "../utils/useNftUtils";
 
-export interface NFTSnapshot {
-  uri: string;
-  date: Date;
-  latitude: number;
-  longitude: number;
-}
-
 export default function NftScreen() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [image, setImage] = useState<ImagePickerAsset | null>(null);
-  const [metadata, setMetadata] = useState<any | null>(null);
 
   const { createNFT } = useNftUtils();
 
   const requestPermissions = async () => {
-    const { status } = await requestMediaLibraryPermissionsAsync();
-    if (status !== "granted") {
+    const { status: mediaLibraryPermissionStatus } =
+      await requestMediaLibraryPermissionsAsync();
+
+    if (mediaLibraryPermissionStatus !== "granted") {
       alertAndLog(
         "Camera roll access denied",
         "Sorry, we need camera roll permissions to make this work!"
       );
+
+      return false;
     }
 
-    const cameraStatus = await requestCameraPermissionsAsync();
-    if (cameraStatus.status !== "granted") {
+    const { status: cameraPermissionStatus } =
+      await requestCameraPermissionsAsync();
+
+    if (cameraPermissionStatus !== "granted") {
       alertAndLog(
         "Camera access denied",
         "Sorry, we need camera permissions to make this work!"
       );
+
+      return false;
     }
+
+    return true;
   };
 
-  // Function to pick an image from the gallery
   const pickImageFromGallery = async () => {
     setIsLoading(true);
 
-    let result = await launchImageLibraryAsync({
+    const permissionsGranted = await requestPermissions();
+
+    if (!permissionsGranted) {
+      setIsLoading(false);
+      return;
+    }
+
+    const result = await launchImageLibraryAsync({
       mediaTypes: MediaTypeOptions.Images,
       allowsEditing: false,
       quality: 1,
-      exif: true, // Request for metadata
     });
 
     if (!result.canceled) {
       setImage(result.assets[0]);
-      setMetadata(result.assets[0].exif);
     }
 
     setIsLoading(false);
   };
 
-  // Function to capture an image using the camera
   const captureImage = async () => {
     setIsLoading(true);
 
-    await requestPermissions();
+    const permissionsGranted = await requestPermissions();
 
-    let result = await launchCameraAsync({
+    if (!permissionsGranted) {
+      setIsLoading(false);
+      return;
+    }
+
+    const result = await launchCameraAsync({
       cameraType: CameraType.back,
       mediaTypes: MediaTypeOptions.Images,
       allowsEditing: true,
       quality: 1,
-      exif: true, // Request for metadata
     });
 
     if (!result.canceled) {
       setImage(result.assets[0]);
-      setMetadata(result.assets[0].exif);
 
-      await saveToLibraryAsync(result.assets[0].uri);
+      if (image) {
+        await saveToLibraryAsync(image.uri);
 
-      alertAndLog("Image saved", JSON.stringify(result.assets[0]));
+        alertAndLog(
+          "Image saved",
+          "The image has been saved to your photo album."
+        );
+      }
     }
 
     setIsLoading(false);
@@ -101,24 +114,23 @@ export default function NftScreen() {
     setIsLoading(false);
   };
 
-  const saveImage = async () => {
-    setIsLoading(true);
+  // const saveImage = async () => {
+  //   setIsLoading(true);
 
-    if (image) {
-      await saveToLibraryAsync(image.uri);
+  //   if (image) {
+  //     await saveToLibraryAsync(image.uri);
 
-      alertAndLog(
-        "Image saved",
-        "The image has been saved to your photo album."
-      );
-    }
+  //     alertAndLog(
+  //       "Image saved",
+  //       "The image has been saved to your photo album."
+  //     );
+  //   }
 
-    setIsLoading(false);
-  };
+  //   setIsLoading(false);
+  // };
 
   const clearImage = () => {
     setImage(null);
-    setMetadata(null);
   };
 
   return (
@@ -127,24 +139,14 @@ export default function NftScreen() {
         <>
           <Image source={{ uri: image.uri }} style={styles.image} />
 
-          <View style={styles.buttonRow}>
-            <Button
-              mode="contained"
-              loading={isLoading}
-              onPress={handleCreateNFT}
-              disabled={isLoading}
-            >
-              Create NFT
-            </Button>
-
-            <Button
-              mode="contained-tonal"
-              onPress={saveImage}
-              disabled={isLoading}
-            >
-              Save image
-            </Button>
-          </View>
+          <Button
+            mode="contained"
+            loading={isLoading}
+            onPress={handleCreateNFT}
+            disabled={isLoading}
+          >
+            Create NFT
+          </Button>
 
           <Button mode="outlined" onPress={clearImage} disabled={isLoading}>
             Clear image
@@ -155,8 +157,6 @@ export default function NftScreen() {
           <Button mode="contained" onPress={captureImage} disabled={isLoading}>
             Capture an Image
           </Button>
-
-          {/* <Text>or</Text> */}
 
           <Button
             mode="contained"
