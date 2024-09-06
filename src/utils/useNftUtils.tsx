@@ -63,7 +63,8 @@ export function useNftUtils() {
 
     const metadata = {
       name: asset.fileName,
-      description: "This NFT was minted using solana mobile by dperdic",
+      description:
+        "This NFT was minted using Solana mobile as part of the Solana Summer Fellowship task.",
       image: storedFile.publicUrl,
       external_url: "https://github.com/dperdic/s7-solana-mobile-dev",
       attributes: [
@@ -76,6 +77,10 @@ export function useNftUtils() {
           value: locationData.longitude,
         },
       ],
+      collection: {
+        name: "Solana mobile",
+        family: "s7-solana-mobile-dperdic",
+      },
       properties: {
         files: [
           {
@@ -85,6 +90,12 @@ export function useNftUtils() {
         ],
         category: "image",
       },
+      creators: [
+        {
+          address: selectedAccount.publicKey.toBase58(),
+          share: 100,
+        },
+      ],
     };
 
     console.log("Uploading metadata...");
