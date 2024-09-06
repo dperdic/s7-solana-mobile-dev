@@ -15,6 +15,7 @@ import { useNftUtils } from "../utils/useNftUtils";
 
 export type NftAsset = {
   fileName: string;
+  extension: string;
   uri: string;
 };
 
@@ -70,8 +71,11 @@ export default function NftScreen() {
     });
 
     if (!result.canceled) {
+      const fileNameParts = result.assets[0].fileName?.split(".")!;
+
       setNftAsset({
-        fileName: result.assets[0].fileName!,
+        fileName: fileNameParts[0],
+        extension: fileNameParts[1],
         uri: result.assets[0].uri,
       });
     }
@@ -99,8 +103,11 @@ export default function NftScreen() {
     if (!result.canceled) {
       const asset = await createAssetAsync(result.assets[0].uri);
 
+      const extension = asset.filename.split(".")[1];
+
       setNftAsset({
         fileName: asset.id,
+        extension: extension,
         uri: asset.uri,
       });
 

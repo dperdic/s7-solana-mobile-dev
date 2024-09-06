@@ -5,13 +5,6 @@ import {
   LocationObjectCoords,
 } from "expo-location";
 import { Alert } from "react-native";
-import mime from "mime";
-
-export const getMimeTypeFromUri = (uri: string): string | null => {
-  const mimeType = mime.getType(uri);
-
-  return mimeType;
-};
 
 export const getLocation = async (): Promise<LocationObjectCoords | null> => {
   const { status } = await requestForegroundPermissionsAsync();
@@ -37,5 +30,5 @@ export function alertAndLog(title: string, message: string) {
     Alert.alert(title, message, [{ text: "Ok", style: "cancel" }]);
   }, 100);
 
-  console.log(title, message);
+  console.log(title, "\n", message);
 }

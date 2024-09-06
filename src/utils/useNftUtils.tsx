@@ -9,8 +9,8 @@ import { decode } from "base64-arraybuffer";
 import { useUmi } from "./UmiProvider";
 import { useQueryClient } from "@tanstack/react-query";
 import { useConnection } from "./ConnectionProvider";
-import * as FileSystem from "expo-file-system";
 import { NftAsset } from "../screens";
+import * as FileSystem from "expo-file-system";
 
 export function useNftUtils() {
   const { selectedAccount } = useAuthorization();
@@ -24,7 +24,7 @@ export function useNftUtils() {
     }
 
     //
-    // ** Setting Up Umi **
+    // ** Get Location **
     //
 
     const locationData = await getLocation();
@@ -39,13 +39,21 @@ export function useNftUtils() {
       encoding: FileSystem.EncodingType.Base64,
     });
 
+    //
+    // ** Upload Image to Supabase **
+    //
+
     console.log("Uploading image...");
 
     const { data: imageResponse, error: imageError } = await supabase.storage
       .from("solana-mobile")
-      .upload(`nfts/images/${asset.fileName}`, decode(base64ImageFile), {
-        upsert: true,
-      });
+      .upload(
+        `nfts/images/${asset.fileName}.${asset.extension}`,
+        decode(base64ImageFile),
+        {
+          upsert: true,
+        }
+      );
 
     if (imageError) {
       alertAndLog("Minting failed", "An error occured while uploading image");
@@ -77,10 +85,6 @@ export function useNftUtils() {
           value: locationData.longitude,
         },
       ],
-      collection: {
-        name: "Solana mobile",
-        family: "s7-solana-mobile-dperdic",
-      },
       properties: {
         files: [
           {
@@ -104,7 +108,7 @@ export function useNftUtils() {
       await supabase.storage
         .from("solana-mobile")
         .upload(
-          `nfts/metadata/${asset.fileName?.split(".")[0]}.json`,
+          `nfts/metadata/${asset.fileName}.json`,
           JSON.stringify(metadata),
           {
             contentType: "application/json",
@@ -151,6 +155,8 @@ export function useNftUtils() {
 
     const signature = base58.deserialize(tx.signature)[0];
 
+    console.log("signature: ", signature);
+
     // refresh home page
     queryClient.invalidateQueries({
       queryKey: [
@@ -161,17 +167,6 @@ export function useNftUtils() {
         },
       ],
     });
-
-    // Log out the signature and the links to the transaction and the NFT.
-    console.log("\npNFT Created");
-    console.log("View Transaction on Solana Explorer");
-    console.log(`https://explorer.solana.com/tx/${signature}?cluster=devnet`);
-    console.log("\n");
-    console.log("View NFT on Metaplex Explorer");
-    console.log(
-      "https://solana.fm/address/DM9BAeAnAfgAZk7ggXF1QFWgk4QSAJGnFNj5yoRa3nPF/transactions?cluster=devnet-alpha",
-      `https://explorer.solana.com/address/${umi.identity.publicKey}?cluster=devnet`
-    );
 
     alertAndLog("Mint successful", "The NFT has been created successfuly!");
   };
