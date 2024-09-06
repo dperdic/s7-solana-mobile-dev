@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Button } from "react-native-paper";
 import {
   CameraType,
-  ImagePickerAsset,
   launchCameraAsync,
   launchImageLibraryAsync,
   MediaTypeOptions,
@@ -11,12 +10,17 @@ import {
   requestMediaLibraryPermissionsAsync,
 } from "expo-image-picker";
 import { alertAndLog } from "../utils/functions";
-import { saveToLibraryAsync } from "expo-media-library";
+import { createAssetAsync } from "expo-media-library";
 import { useNftUtils } from "../utils/useNftUtils";
+
+export type NftAsset = {
+  fileName: string;
+  uri: string;
+};
 
 export default function NftScreen() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [image, setImage] = useState<ImagePickerAsset | null>(null);
+  const [nftAsset, setNftAsset] = useState<NftAsset | null>(null);
 
   const { createNFT } = useNftUtils();
 
@@ -62,10 +66,14 @@ export default function NftScreen() {
       mediaTypes: MediaTypeOptions.Images,
       allowsEditing: false,
       quality: 1,
+      selectionLimit: 1,
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0]);
+      setNftAsset({
+        fileName: result.assets[0].fileName!,
+        uri: result.assets[0].uri,
+      });
     }
 
     setIsLoading(false);
@@ -89,16 +97,17 @@ export default function NftScreen() {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0]);
+      const asset = await createAssetAsync(result.assets[0].uri);
 
-      if (image) {
-        await saveToLibraryAsync(image.uri);
+      setNftAsset({
+        fileName: asset.id,
+        uri: asset.uri,
+      });
 
-        alertAndLog(
-          "Image saved",
-          "The image has been saved to your photo album."
-        );
-      }
+      alertAndLog(
+        "Image saved",
+        "The image has been saved to your photo album."
+      );
     }
 
     setIsLoading(false);
@@ -107,37 +116,22 @@ export default function NftScreen() {
   const handleCreateNFT = async () => {
     setIsLoading(true);
 
-    if (image) {
-      await createNFT(image);
+    if (nftAsset) {
+      await createNFT(nftAsset);
     }
 
     setIsLoading(false);
   };
 
-  // const saveImage = async () => {
-  //   setIsLoading(true);
-
-  //   if (image) {
-  //     await saveToLibraryAsync(image.uri);
-
-  //     alertAndLog(
-  //       "Image saved",
-  //       "The image has been saved to your photo album."
-  //     );
-  //   }
-
-  //   setIsLoading(false);
-  // };
-
   const clearImage = () => {
-    setImage(null);
+    setNftAsset(null);
   };
 
   return (
     <View style={styles.container}>
-      {image ? (
+      {nftAsset ? (
         <>
-          <Image source={{ uri: image.uri }} style={styles.image} />
+          <Image source={{ uri: nftAsset.uri }} style={styles.image} />
 
           <Button
             mode="contained"

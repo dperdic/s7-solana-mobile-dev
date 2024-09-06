@@ -5,12 +5,12 @@ import { useMemo } from "react";
 import { alertAndLog, getLocation } from "./functions";
 import { base58 } from "@metaplex-foundation/umi-serializers";
 import { supabase } from "./supabase";
-import { ImagePickerAsset } from "expo-image-picker";
 import { decode } from "base64-arraybuffer";
 import { useUmi } from "./UmiProvider";
 import { useQueryClient } from "@tanstack/react-query";
 import { useConnection } from "./ConnectionProvider";
 import * as FileSystem from "expo-file-system";
+import { NftAsset } from "../screens";
 
 export function useNftUtils() {
   const { selectedAccount } = useAuthorization();
@@ -18,7 +18,7 @@ export function useNftUtils() {
   const queryClient = useQueryClient();
   const umi = useUmi();
 
-  const createNFT = async (imagePickerAsset: ImagePickerAsset) => {
+  const createNFT = async (asset: NftAsset) => {
     if (!selectedAccount?.publicKey) {
       return;
     }
@@ -35,22 +35,17 @@ export function useNftUtils() {
       return;
     }
 
-    const base64ImageFile = await FileSystem.readAsStringAsync(
-      imagePickerAsset.uri,
-      {
-        encoding: FileSystem.EncodingType.Base64,
-      }
-    );
+    const base64ImageFile = await FileSystem.readAsStringAsync(asset.uri, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
 
     console.log("Uploading image...");
 
     const { data: imageResponse, error: imageError } = await supabase.storage
       .from("solana-mobile")
-      .upload(
-        `nfts/images/${imagePickerAsset.fileName}`,
-        decode(base64ImageFile),
-        { upsert: true }
-      );
+      .upload(`nfts/images/${asset.fileName}`, decode(base64ImageFile), {
+        upsert: true,
+      });
 
     if (imageError) {
       alertAndLog("Minting failed", "An error occured while uploading image");
@@ -67,7 +62,7 @@ export function useNftUtils() {
     //
 
     const metadata = {
-      name: imagePickerAsset.fileName!,
+      name: asset.fileName,
       description: "This NFT was minted using solana mobile by dperdic",
       image: storedFile.publicUrl,
       external_url: "https://github.com/dperdic/s7-solana-mobile-dev",
@@ -98,7 +93,7 @@ export function useNftUtils() {
       await supabase.storage
         .from("solana-mobile")
         .upload(
-          `nfts/metadata/${imagePickerAsset.fileName?.split(".")[0]}.json`,
+          `nfts/metadata/${asset.fileName?.split(".")[0]}.json`,
           JSON.stringify(metadata),
           {
             contentType: "application/json",
