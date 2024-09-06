@@ -26,7 +26,7 @@ export default function NftScreen() {
   const [image, setImage] = useState<ImagePickerAsset | null>(null);
   const [metadata, setMetadata] = useState<any | null>(null);
 
-  const { createNft } = useNftUtils();
+  const { createNFT } = useNftUtils();
 
   const requestPermissions = async () => {
     const { status } = await requestMediaLibraryPermissionsAsync();
@@ -91,20 +91,19 @@ export default function NftScreen() {
     setIsLoading(false);
   };
 
-  // Function to print the metadata to the console
-  const createNFT = () => {
-    // if (metadata) {
-    //   alertAndLog("Image Metadata", JSON.stringify(metadata));
-    // } else {
-    //   alertAndLog("No metadata available", null);
-    // }
+  const handleCreateNFT = async () => {
+    setIsLoading(true);
 
     if (image) {
-      createNft(image);
+      await createNFT(image);
     }
+
+    setIsLoading(false);
   };
 
   const saveImage = async () => {
+    setIsLoading(true);
+
     if (image) {
       await saveToLibraryAsync(image.uri);
 
@@ -113,6 +112,8 @@ export default function NftScreen() {
         "The image has been saved to your photo album."
       );
     }
+
+    setIsLoading(false);
   };
 
   const clearImage = () => {
@@ -127,7 +128,12 @@ export default function NftScreen() {
           <Image source={{ uri: image.uri }} style={styles.image} />
 
           <View style={styles.buttonRow}>
-            <Button mode="contained" onPress={createNFT} disabled={isLoading}>
+            <Button
+              mode="contained"
+              loading={isLoading}
+              onPress={handleCreateNFT}
+              disabled={isLoading}
+            >
               Create NFT
             </Button>
 

@@ -192,7 +192,7 @@ export function ReceiveSolModal({
 export function AccountTokens({ address }: { address: PublicKey }) {
   let query = useGetTokenAccounts({ address });
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 3; // Items per page
+  const itemsPerPage = 10; // Items per page
   const theme = useTheme();
 
   const items = useMemo(() => {
@@ -216,6 +216,7 @@ export function AccountTokens({ address }: { address: PublicKey }) {
       >
         Token Accounts
       </Text>
+
       <ScrollView>
         {query.isLoading && <ActivityIndicator animating={true} />}
         {query.isError && (
