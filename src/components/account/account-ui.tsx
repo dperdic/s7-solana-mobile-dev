@@ -28,7 +28,7 @@ export function AccountBalance({ address }: { address: PublicKey }) {
   return (
     <>
       <View style={styles.accountBalance}>
-        <Text variant="titleMedium">Current Balance</Text>
+        <Text variant="titleLarge">Current Balance</Text>
         <Text variant="displaySmall">
           {query.data ? lamportsToSol(query.data) : "..."} SOL
         </Text>
@@ -290,7 +290,7 @@ export function AccountTokenBalance({ address }: { address: PublicKey }) {
 
 const styles = StyleSheet.create({
   accountBalance: {
-    marginTop: 12,
+    marginTop: 8,
   },
   accountButtonGroup: {
     paddingVertical: 4,

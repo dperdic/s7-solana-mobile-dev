@@ -11,7 +11,7 @@ export function HomeScreen() {
   return (
     <View style={styles.screenContainer}>
       <Text
-        style={{ fontWeight: "bold", marginBottom: 36 }}
+        style={{ fontWeight: "bold", textAlign: "center" }}
         variant="displaySmall"
       >
         Solana Mobile Mint
