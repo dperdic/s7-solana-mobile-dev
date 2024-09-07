@@ -9,12 +9,12 @@
     "web": "expo start --web",
     "build": "eas build --profile preview --platform android",
     "build:preview": "eas build --profile preview --platform android --local",
-    "build:local": "eas build --profile development --platform android --local",
+    "build:dev": "eas build --profile development --platform android --local",
     "fix": "node fixer.mjs",
     "test": "echo \"No tests specified\" && exit 0",
     "clean": "rimraf node_modules",
-    "reset": "yarn clean && yarn && yarn fix",
-    "eas-build-post-install": "yarn fix"
+    "reset": "yarn clean && yarn",
+    "postinstall": "yarn fix"
   },
   "dependencies": {
     "@expo/metro-runtime": "~3.1.3",
