@@ -1,5 +1,5 @@
 // This file exists because @metaplex-foundation/umi package uses package exports to export the umi/serializers submodule
-// React Native's Metro Bundler doesn't suppert package exports by default so it can't find umi/serializers
+// React Native's Metro Bundler doesn't support package exports by default so it can't find umi/serializers
 // Github issue: https://github.com/metaplex-foundation/umi/issues/94
 
 import * as fs from "fs";
