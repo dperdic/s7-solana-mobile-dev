@@ -70,7 +70,7 @@ export function useNftUtils() {
     //
 
     const metadata = {
-      name: asset.fileName,
+      name: `Photo #${asset.fileName}`,
       description:
         "This NFT was minted using Solana mobile as part of the Solana Summer Fellowship task.",
       image: storedFile.publicUrl,
