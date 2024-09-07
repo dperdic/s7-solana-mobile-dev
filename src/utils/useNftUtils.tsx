@@ -155,7 +155,10 @@ export function useNftUtils() {
 
     const signature = base58.deserialize(tx.signature)[0];
 
-    console.log("signature: ", signature);
+    console.log(
+      "transaction: ",
+      `https://explorer.solana.com/tx/${signature}?cluster=devnet`
+    );
 
     // refresh home page
     queryClient.invalidateQueries({
