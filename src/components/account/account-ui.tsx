@@ -6,7 +6,7 @@ import {
   useRequestAirdrop,
   useTransferSol,
 } from "./account-data-access";
-import { View, StyleSheet, ScrollView, RefreshControl } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import {
   Text,
   useTheme,
@@ -15,11 +15,9 @@ import {
   DataTable,
   TextInput,
 } from "react-native-paper";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { ellipsify } from "../../utils/ellipsify";
 import { AppModal } from "../ui/app-modal";
-import { useQueryClient } from "@tanstack/react-query";
-import { useConnection } from "../../utils/ConnectionProvider";
 
 function lamportsToSol(balance: number) {
   return Math.round((balance / LAMPORTS_PER_SOL) * 100000) / 100000;
@@ -192,11 +190,7 @@ export function ReceiveSolModal({
 }
 
 export function AccountTokens({ address }: { address: PublicKey }) {
-  const { connection } = useConnection();
-
   const query = useGetTokenAccounts({ address });
-  const queryClient = useQueryClient();
-  const [refreshing, setRefreshing] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 4; // Items per page
@@ -214,19 +208,6 @@ export function AccountTokens({ address }: { address: PublicKey }) {
     return Math.ceil((query.data?.length ?? 0) / itemsPerPage);
   }, [query.data, itemsPerPage]);
 
-  const onRefresh = useCallback(async () => {
-    setRefreshing(true);
-
-    queryClient.invalidateQueries({
-      queryKey: [
-        "get-token-accounts",
-        { endpoint: connection.rpcEndpoint, address },
-      ],
-    });
-
-    setRefreshing(false);
-  }, []);
-
   return (
     <>
       <Text
@@ -238,11 +219,7 @@ export function AccountTokens({ address }: { address: PublicKey }) {
         Token Accounts
       </Text>
 
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
+      <ScrollView>
         {query.isLoading && <ActivityIndicator animating={true} />}
 
         {query.isError && (

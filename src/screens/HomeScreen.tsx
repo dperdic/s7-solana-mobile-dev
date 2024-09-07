@@ -1,15 +1,46 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView, RefreshControl } from "react-native";
 import { Text } from "react-native-paper";
 import { Section } from "../Section";
 import { useAuthorization } from "../utils/useAuthorization";
 import { AccountDetailFeature } from "../components/account/account-detail-feature";
 import { SignInFeature } from "../components/sign-in/sign-in-feature";
+import { useCallback, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useConnection } from "../utils/ConnectionProvider";
 
 export function HomeScreen() {
   const { selectedAccount } = useAuthorization();
+  const { connection } = useConnection();
+  const queryClient = useQueryClient();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(async () => {
+    if (!selectedAccount) {
+      return;
+    }
+
+    setRefreshing(true);
+
+    queryClient.invalidateQueries({
+      queryKey: [
+        "get-token-accounts",
+        {
+          endpoint: connection.rpcEndpoint,
+          address: selectedAccount.publicKey,
+        },
+      ],
+    });
+
+    setRefreshing(false);
+  }, []);
 
   return (
-    <View style={styles.screenContainer}>
+    <ScrollView
+      style={styles.screenContainer}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <Text
         style={{ fontWeight: "bold", textAlign: "center" }}
         variant="displaySmall"
@@ -38,7 +69,7 @@ export function HomeScreen() {
           <SignInFeature />
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 }
 
