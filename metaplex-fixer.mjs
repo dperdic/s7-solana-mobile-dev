@@ -1,11 +1,15 @@
+// This file exists because @metaplex-foundation/umi package uses package exports to export the umi/serializers submodule
+// React Native's Metro Bundler doesn't suppert package exports by default so it can't find umi/serializers
+// Github issue: https://github.com/metaplex-foundation/umi/issues/94
+
 import * as fs from "fs";
 import { globSync } from "glob";
+
+console.log("fixing metaplex files...");
 
 const metaplexFiles = globSync(
   "node_modules/@metaplex-foundation/**/*.{ts,js,cjs}"
 );
-
-console.log("fixing metaplex files...");
 
 metaplexFiles.forEach((file) => {
   const data = fs.readFileSync(file, "utf8");
@@ -25,4 +29,4 @@ metaplexFiles.forEach((file) => {
   fs.writeFileSync(file, result, "utf8");
 });
 
-console.log("metaplex files fixed");
+console.log("fixed metaplex files");

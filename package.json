@@ -10,7 +10,7 @@
     "build": "eas build --profile preview --platform android",
     "build:preview": "eas build --profile preview --platform android --local",
     "build:dev": "eas build --profile development --platform android --local",
-    "fix": "node fixer.mjs",
+    "fix": "node metaplex-fixer.mjs",
     "test": "echo \"No tests specified\" && exit 0",
     "clean": "rimraf node_modules",
     "reset": "yarn clean && yarn",
