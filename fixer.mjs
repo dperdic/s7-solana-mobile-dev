@@ -5,6 +5,8 @@ const metaplexFiles = globSync(
   "node_modules/@metaplex-foundation/**/*.{ts,js,cjs}"
 );
 
+console.log("fixing metaplex files...");
+
 metaplexFiles.forEach((file) => {
   const data = fs.readFileSync(file, "utf8");
 
@@ -20,7 +22,7 @@ metaplexFiles.forEach((file) => {
     );
   }
 
-  console.log(`fixing ${file}}`);
-
   fs.writeFileSync(file, result, "utf8");
 });
+
+console.log("files fixed");

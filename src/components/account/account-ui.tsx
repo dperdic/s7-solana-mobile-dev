@@ -29,7 +29,7 @@ export function AccountBalance({ address }: { address: PublicKey }) {
     <>
       <View style={styles.accountBalance}>
         <Text variant="titleMedium">Current Balance</Text>
-        <Text variant="displayLarge">
+        <Text variant="displaySmall">
           {query.data ? lamportsToSol(query.data) : "..."} SOL
         </Text>
       </View>
@@ -192,7 +192,7 @@ export function ReceiveSolModal({
 export function AccountTokens({ address }: { address: PublicKey }) {
   let query = useGetTokenAccounts({ address });
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 10; // Items per page
+  const itemsPerPage = 4; // Items per page
   const theme = useTheme();
 
   const items = useMemo(() => {

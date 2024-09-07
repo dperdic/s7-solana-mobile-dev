@@ -14,7 +14,7 @@ export function HomeScreen() {
         style={{ fontWeight: "bold", marginBottom: 36 }}
         variant="displaySmall"
       >
-        S7 Solana Mobile Dev
+        Solana Mobile Mint
       </Text>
       {selectedAccount ? (
         <AccountDetailFeature />
@@ -27,12 +27,12 @@ export function HomeScreen() {
 
           <Section
             title="2. Airdrop SOL"
-            description="Airdrop some SOL if you need it"
+            description="Airdrop 1 SOL if you need it."
           />
 
           <Section
             title="3. Mint NFT"
-            description="Once your wallet is connected create an NFT by loading an image from your gallery or capturing a new image"
+            description="Once your wallet is connected create an NFT by loading an image from your gallery or capturing a new image."
           />
 
           <SignInFeature />
