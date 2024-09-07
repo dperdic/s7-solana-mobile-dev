@@ -156,7 +156,7 @@ export default function NftScreen() {
       ) : (
         <>
           <Button mode="contained" onPress={captureImage} disabled={isLoading}>
-            Capture an Image
+            Take a photo
           </Button>
 
           <Button
@@ -164,7 +164,7 @@ export default function NftScreen() {
             onPress={pickImageFromGallery}
             disabled={isLoading}
           >
-            Load an Image from Gallery
+            Select a photo from the gallery
           </Button>
         </>
       )}
