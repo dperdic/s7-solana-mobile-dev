@@ -25,4 +25,4 @@ metaplexFiles.forEach((file) => {
   fs.writeFileSync(file, result, "utf8");
 });
 
-console.log("files fixed");
+console.log("metaplex files fixed");
