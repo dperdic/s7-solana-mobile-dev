@@ -290,7 +290,10 @@ export function AccountTokenBalance({ address }: { address: PublicKey }) {
 
 const styles = StyleSheet.create({
   accountBalance: {
-    marginTop: 8,
+    display: "flex",
+    flexDirection: "column",
+    gap: 8,
+    alignItems: "center",
   },
   accountButtonGroup: {
     paddingVertical: 4,

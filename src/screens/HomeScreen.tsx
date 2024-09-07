@@ -14,7 +14,7 @@ export function HomeScreen() {
         style={{ fontWeight: "bold", textAlign: "center" }}
         variant="displaySmall"
       >
-        Solana Mobile Mint
+        Mintpix
       </Text>
       {selectedAccount ? (
         <AccountDetailFeature />
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     gap: 24,
+    marginTop: 24,
   },
   buttonGroup: {
     flexDirection: "column",

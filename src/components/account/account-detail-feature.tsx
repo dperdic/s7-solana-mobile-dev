@@ -17,11 +17,11 @@ export function AccountDetailFeature() {
 
   return (
     <>
-      <View style={{ marginTop: 24, alignItems: "center" }}>
+      <View style={{ marginTop: 24, alignItems: "center", gap: 8 }}>
         <AccountBalance address={selectedAccount.publicKey} />
         <AccountButtonGroup address={selectedAccount.publicKey} />
       </View>
-      <View style={{ marginTop: 48 }}>
+      <View style={{ marginTop: 24 }}>
         <AccountTokens address={selectedAccount.publicKey} />
       </View>
     </>
