@@ -12,7 +12,7 @@ Build an app that captures an image through the camera, mints an NFT with that i
 
 ### Description
 
-The user needs to first connect their wallet app.
+The user first needs to connect their wallet app.
 
 After the wallet has been connected, a new screen is avalable called `NFT`.
 
