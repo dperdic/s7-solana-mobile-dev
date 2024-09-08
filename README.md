@@ -22,6 +22,6 @@ After an image has been selected the user can mint an NFT with the image and the
 
 ### App demo
 
-Video demo of the app can be found [here](https://jtrledmmznkgtipuxcja.supabase.co/storage/v1/object/public/solana-mobile/videos/e1828a73d2754254b3184e015c5c1d29.mp4?t=2024-09-08T10%3A23%3A02.653Z).
+Video demo of the app can be found [here](https://jtrledmmznkgtipuxcja.supabase.co/storage/v1/object/public/solana-mobile/videos/e1828a73d2754254b3184e015c5c1d29.mp4).
 
 The NFT minted in the video can be found [here](https://explorer.solana.com/address/CuS2bxaohJeg6b8YgtjD6kYY4HinCXx9pB4XQfQKxbZR/attributes?cluster=devnet).
