@@ -22,6 +22,8 @@ After an image has been selected the user can mint an NFT with the image and the
 
 ### App demo
 
-![Mintpix demo video](https://jtrledmmznkgtipuxcja.supabase.co/storage/v1/object/public/solana-mobile/videos/e1828a73d2754254b3184e015c5c1d29.mp4?t=2024-09-08T10%3A23%3A02.653Z)
+<div style="position: relative; padding-bottom: 222.22222222222223%; height: 0;">
+<iframe src="https://www.loom.com/embed/e1828a73d2754254b3184e015c5c1d29?sid=4fe2cf88-dd00-4144-a2b1-ed41c4605b7b" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+</div>
 
 The NFT minted in the video can be found [here](https://explorer.solana.com/address/CuS2bxaohJeg6b8YgtjD6kYY4HinCXx9pB4XQfQKxbZR/attributes?cluster=devnet).
