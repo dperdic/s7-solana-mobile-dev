@@ -12,6 +12,7 @@ npm-debug.*
 web-build/
 .env
 .env.*
+!.env.template
 
 # macOS
 .DS_Store
