@@ -1,4 +1,4 @@
-# S7 Solana Mobile
+# S7 - Solana Mobile
 
 Seventh assignment for the Solana Summer Fellowship 2024.
 
