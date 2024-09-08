@@ -7,7 +7,6 @@
     "android": "expo start --android --dev-client",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build": "eas build --profile preview --platform android",
     "build:preview": "eas build --profile preview --platform android --local",
     "build:dev": "eas build --profile development --platform android --local",
     "fix": "node metaplex-fixer.mjs",
