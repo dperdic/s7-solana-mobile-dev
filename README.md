@@ -10,11 +10,53 @@ Seventh assignment for the Solana Summer Fellowship 2024.
 Build an app that captures an image through the camera, mints an NFT with that image, and adds the current location longitude, latitude in the metadata.
 ```
 
+### Building the app
+
+To build the app first install the dependencies.
+
+```bash
+yarn
+```
+
+The postinstall script that fixes metaplex packages should run after the dependencies have been installed.
+
+If the script doesnt run, you can run it using the following command:
+
+```bash
+yarn fix
+```
+
+#### Development build
+
+Run the following command to build the development environment .apk file.
+
+```bash
+yarn build:dev
+```
+
+After the .apk file has been built drag it into your emulator in android studio.
+
+Then start a development server using the following command:
+
+```bash
+yarn android
+```
+
+#### Preview build
+
+Run the following command to build the preview environment .apk file.
+
+```bash
+yarn build:preview
+```
+
+This .apk file does not require a development server and can be installed on your phone.
+
 ### Description
 
 The user first needs to connect their wallet app.
 
-After the wallet has been connected, a new screen called `NFT` will be avalable .
+After the wallet has been connected, a new screen called `NFT` will be avalable.
 
 The user then has the option to take a photo with their camera or load an image from their gallery.
 
