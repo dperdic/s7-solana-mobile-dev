@@ -12,6 +12,8 @@ Build an app that captures an image through the camera, mints an NFT with that i
 
 ### Building the app
 
+The app relies on supabase storage to store the NFT's image and metadata. Create a project on supabase and make sure to set the storage bucket to be publicly accessible and make a `.env` file based on the template provided.
+
 To build the app first install the dependencies.
 
 ```bash
