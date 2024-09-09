@@ -30,13 +30,13 @@ yarn fix
 
 #### Development build
 
-Run the following command to build the development environment .apk file.
+Run the following command to build the development environment `.apk` file.
 
 ```bash
 yarn build:dev
 ```
 
-After the .apk file has been built drag it into your emulator in android studio.
+After the `.apk` file has been built drag it into your emulator in android studio.
 
 Then start a development server using the following command:
 
@@ -46,13 +46,13 @@ yarn android
 
 #### Preview build
 
-Run the following command to build the preview environment .apk file.
+Run the following command to build the preview environment `.apk` file.
 
 ```bash
 yarn build:preview
 ```
 
-This .apk file does not require a development server and can be installed on your phone.
+This `.apk` file does not require a development server and can be installed on your phone.
 
 ### Description
 
