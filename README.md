@@ -12,7 +12,7 @@ Build an app that captures an image through the camera, mints an NFT with that i
 
 ### Building the app
 
-The app relies on Supabase storage to store the NFT's image and metadata. Create a project on supabase and make sure to set the storage bucket to be publicly accessible and make a `.env` file based on the template provided.
+The app relies on Supabase storage to store the NFT's image and metadata. Create a project on Supabase and make sure to set the storage bucket to be publicly accessible and make a `.env` file based on the template provided.
 
 To build the app first install the dependencies.
 
@@ -20,9 +20,9 @@ To build the app first install the dependencies.
 yarn
 ```
 
-The postinstall script that fixes metaplex packages should run after the dependencies have been installed.
+The `postinstall` script that fixes metaplex packages should run after the dependencies have been installed.
 
-If the script doesnt run, you can run it using the following command:
+If the script doesnt run, you can run it manually using the following command:
 
 ```bash
 yarn fix
