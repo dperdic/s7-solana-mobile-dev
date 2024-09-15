@@ -1,7 +1,7 @@
 import { createNft } from "@metaplex-foundation/mpl-token-metadata";
 import { generateSigner, percentAmount } from "@metaplex-foundation/umi";
 import { useAuthorization } from "./useAuthorization";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { alertAndLog, getLocation } from "./functions";
 import { base58 } from "@metaplex-foundation/umi-serializers";
 import { supabase } from "./supabase";
@@ -13,10 +13,15 @@ import { NftAsset } from "../screens";
 import * as FileSystem from "expo-file-system";
 
 export function useNftUtils() {
+  const [bucket, setBucket] = useState("");
   const { selectedAccount } = useAuthorization();
   const { connection } = useConnection();
   const queryClient = useQueryClient();
   const umi = useUmi();
+
+  useEffect(() => {
+    setBucket(process.env.EXPO_PUBLIC_SUPABASE_STORAGE_BUCKET!);
+  }, []);
 
   const createNFT = async (asset: NftAsset) => {
     if (!selectedAccount?.publicKey) {
@@ -46,7 +51,7 @@ export function useNftUtils() {
     console.log("Uploading image...");
 
     const { data: imageResponse, error: imageError } = await supabase.storage
-      .from("solana-mobile")
+      .from(bucket)
       .upload(
         `nfts/images/${asset.fileName}.${asset.extension}`,
         decode(base64ImageFile),
@@ -62,7 +67,7 @@ export function useNftUtils() {
     }
 
     const { data: storedFile } = supabase.storage
-      .from("solana-mobile")
+      .from(bucket)
       .getPublicUrl(imageResponse.path);
 
     //
@@ -106,7 +111,7 @@ export function useNftUtils() {
 
     const { data: metadataResponse, error: metadataError } =
       await supabase.storage
-        .from("solana-mobile")
+        .from(bucket)
         .upload(
           `nfts/metadata/${asset.fileName}.json`,
           JSON.stringify(metadata),
@@ -126,7 +131,7 @@ export function useNftUtils() {
     }
 
     const { data: metadataUri } = supabase.storage
-      .from("solana-mobile")
+      .from(bucket)
       .getPublicUrl(metadataResponse.path);
 
     //
